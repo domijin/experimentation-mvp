@@ -11,6 +11,7 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    touch templates/{base,home,item}.html
    touch static/styles.css
    touch requirements.txt
+   touch docker-compose.yml
    ```
 
 2. **Set Up Dependencies**
@@ -18,14 +19,16 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
      - Flask
      - GrowthBook SDK
      - python-dotenv (for environment variables)
+     - requests (for GrowthBook API calls)
 
-3. **GrowthBook Configuration**
-   - Create account on GrowthBook
+3. **Self-hosted GrowthBook Setup**
+   - Create `docker-compose.yml` for GrowthBook instance
+   - Configure GrowthBook environment variables
    - Set up two feature flags:
      - `ui_color`: variants `light` (control) and `dark`
      - `item_link_behavior`: variants `same_tab` and `new_tab`
-   - Get Public Client Key
    - Configure 50/50 split for both experiments
+   - Set up local API endpoint configuration
 
 ## Phase 2: Core Implementation
 
@@ -39,9 +42,10 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    - Include at least 6-8 sample products
 
 2. **GrowthBook Integration (`growthbook.py`)**
-   - Initialize GrowthBook client
+   - Initialize GrowthBook client with local API endpoint
    - Create helper function for variation evaluation
    - Implement user ID generation/management
+   - Add local API error handling and fallbacks
 
 3. **Base Template (`templates/base.html`)**
    - Create HTML skeleton
@@ -73,6 +77,7 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    - Add item detail route
    - Create fallback route
    - Set up event logging
+   - Add health check endpoint for GrowthBook
 
 ## Phase 4: Experiment Integration
 
@@ -85,12 +90,14 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    - Add color scheme variation logic
    - Implement link behavior variation
    - Set up template context for variations
+   - Add local caching for feature flags
 
 3. **Event Logging**
    - Create logging function
    - Implement console logging
    - Add CSV logging option
    - Log experiment variations
+   - Add local event storage
 
 ## Phase 5: Testing & Validation
 
@@ -99,17 +106,20 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    - Verify link behaviors
    - Check responsive design
    - Validate event logging
+   - Test GrowthBook API connectivity
 
 2. **Experiment Validation**
    - Open multiple incognito windows
    - Verify even distribution of variations
    - Check event logging accuracy
    - Validate user persistence
+   - Test local API fallbacks
 
 3. **Performance Testing**
    - Test page load times
-   - Verify GrowthBook SDK performance
+   - Verify GrowthBook API performance
    - Check memory usage
+   - Test local caching effectiveness
 
 ## Phase 6: Documentation & Polish
 
@@ -117,17 +127,20 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    - Add docstrings to functions
    - Document experiment logic
    - Add inline comments for complex sections
+   - Document local GrowthBook setup
 
 2. **User Documentation**
    - Complete README.md
    - Add setup instructions
    - Document testing procedures
+   - Add troubleshooting guide
 
 3. **Final Review**
    - Code cleanup
    - Remove debug statements
    - Verify all requirements are met
    - Check for security best practices
+   - Verify local GrowthBook configuration
 
 ## Phase 7: Optional Enhancements
 
@@ -136,24 +149,25 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    - Create product migration
    - Update product access logic
 
-2. **Metrics Integration**
-   - Set up GrowthBook metrics
-   - Create SQL queries for analysis
-   - Add conversion tracking
+2. **Enhanced Logging**
+   - Add structured logging
+   - Implement log rotation
+   - Add log analysis tools
 
 3. **Containerization**
-   - Create Dockerfile
-   - Add docker-compose.yml
+   - Create Dockerfile for Flask app
+   - Update docker-compose.yml for full stack
    - Document container usage
+   - Add development/production configurations
 
 ## Timeline Estimate
 
-- Phase 1: 1 hour
+- Phase 1: 2 hours
 - Phase 2: 2-3 hours
 - Phase 3: 2-3 hours
 - Phase 4: 1-2 hours
-- Phase 5: 1 hour
+- Phase 5: 1-2 hours
 - Phase 6: 1 hour
 - Phase 7: 2-3 hours (optional)
 
-Total: 8-11 hours for core implementation, 10-14 hours with optional enhancements. 
+Total: 9-13 hours for core implementation, 11-16 hours with optional enhancements. 

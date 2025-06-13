@@ -1,15 +1,15 @@
 # Flask + GrowthBook E-Commerce MVP
 
-A lightweight e-commerce demo showcasing GrowthBook's A/B testing capabilities with two live experiments:
+A lightweight e-commerce demo showcasing self-hosted GrowthBook's A/B testing capabilities with two live experiments:
 1. UI Color Scheme (light vs dark)
 2. Item Link Behavior (same-tab vs new-tab)
 
 ## 🎯 Project Goals
 
-- Demonstrate GrowthBook's feature flag capabilities in a real-world context
+- Demonstrate GrowthBook's feature flag capabilities in a self-hosted environment
 - Show how to implement A/B testing in a Flask application
 - Provide a simple, self-contained example that can be run locally
-- No external dependencies beyond GrowthBook's CDN
+- No external dependencies or services required
 
 ## 🚀 Quick Start
 
@@ -23,11 +23,15 @@ A lightweight e-commerce demo showcasing GrowthBook's A/B testing capabilities w
    ```bash
    pip install -r requirements.txt
    ```
-4. Run the application:
+4. Start the self-hosted GrowthBook instance:
+   ```bash
+   docker-compose up -d growthbook
+   ```
+5. Run the application:
    ```bash
    python app.py
    ```
-5. Visit http://127.0.0.1:5000 in your browser
+6. Visit http://127.0.0.1:5000 in your browser
 
 ## 📋 Features
 
@@ -42,13 +46,15 @@ A lightweight e-commerce demo showcasing GrowthBook's A/B testing capabilities w
   - Item Link Behavior (same-tab/new-tab)
 - Simple event logging
 - No database required (in-memory product data)
+- Self-hosted GrowthBook instance
 
 ## 🛠️ Technical Stack
 
 - Flask (Python web framework)
-- GrowthBook (Feature flag & A/B testing)
+- Self-hosted GrowthBook (Feature flag & A/B testing)
 - Jinja2 templates
 - CSS variables for theming
+- Docker (for GrowthBook instance)
 
 ## 📝 Implementation Plan
 
@@ -72,6 +78,6 @@ The application logs events to the console and/or CSV file, including:
 ## 🔮 Future Enhancements
 
 - Add SQLite database for product storage
-- Integrate with GrowthBook metrics
 - Add more experiment variations
-- Docker containerization 
+- Docker containerization for the entire stack
+- Enhanced event logging and analytics 
