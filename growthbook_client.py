@@ -22,9 +22,21 @@ def create_growthbook(user_id):
         "loggedIn": True
     }
 
+    def on_experiment_viewed(experiment, result):
+        """
+        Callback for when an experiment is viewed.
+        """
+        logger.info(f"Experiment viewed: {experiment.key} - Variation: {result.key}")
+        # Track experiment results
+        if experiment.key == "item_link_behavior":
+            logger.info(f"Tracking item_link_test: {result.key}")
+        elif experiment.key == "ui_color":
+            logger.info(f"Tracking ui-theme: {result.key}")
+
     # Create GrowthBook instance
     gb = GrowthBook(
         attributes=attributes,
+        on_experiment_viewed=on_experiment_viewed,
         api_host=os.getenv('GROWTHBOOK_API_HOST', 'http://localhost:3100'),
         client_key=os.getenv('GROWTHBOOK_CLIENT_KEY', 'sdk-abc123')
     )
@@ -37,18 +49,27 @@ def create_growthbook(user_id):
 
     return gb
 
-def get_variations(gb):
+def get_variations(gb, user_id):
     """
     Get feature flag variations using the GrowthBook instance.
+    Returns the feature values from GrowthBook experiments.
     """
     try:
+        # Get feature values from GrowthBook experiments
+        ui_theme = gb.get_feature_value('ui_color', 'light')
+        link_behavior = gb.get_feature_value('item_link_behavior', 'same_tab')
+        
+        logger.info(f"User {user_id} - UI Theme: {ui_theme}")
+        logger.info(f"User {user_id} - Link Behavior: {link_behavior}")
+        
         variations = {
-            'ui_color': gb.get_feature_value('ui_color', 'light'),
-            'item_link_behavior': gb.get_feature_value('item_link_behavior', 'same_tab')
+            'ui_color': ui_theme,
+            'item_link_behavior': link_behavior
         }
         return variations
     except Exception as e:
         logger.error(f"Error getting variations: {str(e)}")
+        # Fallback to default values if there's an error
         return {
             'ui_color': 'light',
             'item_link_behavior': 'same_tab'
@@ -63,7 +84,7 @@ def log_event(gb, event_name, properties=None):
     
     try:
         # Get current variations
-        variations = get_variations(gb)
+        variations = get_variations(gb, gb.attributes.get('id'))
         
         # Create event log entry
         event_log = {

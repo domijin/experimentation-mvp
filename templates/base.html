@@ -1,18 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{% if color == 'dark' %}dark{% else %}light{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}E-Commerce Demo{% endblock %}</title>
+    <title>{% block title %}Home Depot Style Store{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        // Function to check if it's night time (between 6 PM and 6 AM)
+        function isNightTime() {
+            const hour = new Date().getHours();
+            return hour >= 18 || hour < 6;
+        }
+
+        // Function to update theme based on time
+        function updateDynamicTheme() {
+            if (document.documentElement.classList.contains('dynamic')) {
+                if (isNightTime()) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                } else {
+                    document.documentElement.classList.add('light');
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+        }
+
+        // Update theme on page load
+        document.addEventListener('DOMContentLoaded', updateDynamicTheme);
+        
+        // Update theme every minute
+        setInterval(updateDynamicTheme, 60000);
+    </script>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">E-Commerce Demo</div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search products..." disabled>
-            </div>
+            <div class="logo">Home Depot Style</div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/cart">Cart</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -21,7 +48,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 E-Commerce Demo. All rights reserved.</p>
+        <p>&copy; 2024 Home Depot Style Store</p>
     </footer>
 </body>
 </html> 

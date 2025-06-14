@@ -93,11 +93,11 @@ This document outlines the step-by-step process to build the Flask + GrowthBook 
    - Add local caching for feature flags
 
 3. **Event Logging**
-   - Create logging function
-   - Implement console logging
-   - Add CSV logging option
-   - Log experiment variations
-   - Add local event storage
+   - Create logging function for GrowthBook events
+   - Implement console logging for debugging
+   - Log experiment variations and user interactions
+   - Integrate with GrowthBook's cloud data warehouse for experiment monitoring
+   - Note: No local event storage as GrowthBook handles data collection and analysis
 
 ## Phase 5: Testing & Validation
 
