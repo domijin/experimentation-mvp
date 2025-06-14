@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+    <a href="{{ url_for('home') }}" class="back-link">← Back to Products</a>
+    
+    <div class="product-content">
+        <div class="product-image">
+            {{ product.image|safe }}
+        </div>
+        
+        <div class="product-info">
+            <h1>{{ product.name }}</h1>
+            <p class="price">${{ "%.2f"|format(product.price) }}</p>
+            <p class="description">{{ product.description }}</p>
+            <button class="button" disabled>Add to Cart (Coming Soon)</button>
+        </div>
+    </div>
+</div>
+{% endblock %} 

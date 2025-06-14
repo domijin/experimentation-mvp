@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Home Depot Style Store{% endblock %}
+
+{% block content %}
+<div class="spotlight">
+    <h1>Welcome to Our Hardware Store</h1>
+    <p>Quality tools and supplies for every project</p>
+</div>
+
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <div class="product-image">
+            {{ product.image|safe }}
+        </div>
+        <div class="product-info">
+            <h2>{{ product.name }}</h2>
+            <p class="price">${{ "%.2f"|format(product.price) }}</p>
+            <p class="description">{{ product.description }}</p>
+            <a href="{{ url_for('item', pid=product.id) }}" class="button">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="promotion-banner">
+    <h2>Special Offer</h2>
+    <p>Free shipping on orders over $50!</p>
+</div>
+{% endblock %} 
